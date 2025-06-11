@@ -1,0 +1,17 @@
+function enviarMensaje() {
+    const input = document.getElementById('input');
+    const chat = document.getElementById('chat');
+    const mensaje = input.value;
+    chat.innerHTML += '<div><strong>Tú:</strong> ' + mensaje + '</div>';
+    fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensaje })
+    })
+    .then(res => res.json())
+    .then(data => {
+        chat.innerHTML += '<div><strong>IA:</strong> ' + data.respuesta + '</div>';
+        chat.scrollTop = chat.scrollHeight;
+    });
+    input.value = '';
+}
