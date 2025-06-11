@@ -1,0 +1,22 @@
+const fs = require('fs');
+const path = require('path');
+
+const archivo = path.join(__dirname, 'interacciones.json');
+
+function registrarInteraccion(pregunta, respuesta) {
+    const interaccion = {
+        fecha: new Date().toISOString(),
+        pregunta,
+        respuesta
+    };
+
+    let historial = [];
+    if (fs.existsSync(archivo)) {
+        historial = JSON.parse(fs.readFileSync(archivo));
+    }
+
+    historial.push(interaccion);
+    fs.writeFileSync(archivo, JSON.stringify(historial, null, 2));
+}
+
+module.exports = { registrarInteraccion };
