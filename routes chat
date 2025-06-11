@@ -1,0 +1,21 @@
+const express = require('express');
+const router = express.Router();
+const { registrarInteraccion } = require('../utils/trazabilidad');
+
+router.post('/', (req, res) => {
+    const mensaje = req.body.mensaje || '';
+    let respuesta = '';
+
+    if (mensaje.toLowerCase().includes('contrato')) {
+        respuesta = 'Un contrato es un acuerdo legal entre partes con obligaciones mutuas.';
+    } else if (mensaje.toLowerCase().includes('despido')) {
+        respuesta = 'En caso de despido, el trabajador tiene derecho a una indemnización según el tipo de contrato.';
+    } else {
+        respuesta = 'Soy un asistente legal. ¿En qué puedo ayudarte?';
+    }
+
+    registrarInteraccion(mensaje, respuesta);
+    res.json({ respuesta });
+});
+
+module.exports = router;
